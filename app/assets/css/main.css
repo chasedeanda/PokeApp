@@ -1,0 +1,52 @@
+/***********************\
+   BOOTSTRAP OVERRIDES
+\***********************/
+.center-block{
+	float:none !important;
+}
+.form-control{
+	margin-bottom: 10px;
+}
+.list-group-item{
+	overflow:hidden;
+}
+.list-group-item:hover{
+	background:#bdc3c7;
+}
+
+
+/***********************\
+  		TOOLS
+\***********************/
+.text-right{
+	text-align: right;
+}
+
+/***********************\
+  		NAVBAR
+\***********************/
+.navbar{
+	height: 105px;
+	background: #e74c3c;
+	color:#ffffff;
+	border-bottom:5px solid #222222;
+}
+.navbar-default .navbar-nav>li>a{
+	color: #ffffff;
+}
+.navbar-header img{
+	height: 75px;
+}
+
+/***********************\
+  	EXPERIMENTAL CSS
+\***********************/
+
+.example-enter {
+  opacity: 0.01;
+  transition: opacity 1s ease-in;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+}
