@@ -28,7 +28,8 @@ var Pokemon = React.createClass({
 	},
 	render:function(){
 		debugger
-		var imgUrl = appConstants.POKE_BASE + this.state.currentPokemon.sprites.resource_uri;
+		// var imgUrl = appConstants.POKE_BASE + this.state.currentPokemon.sprites.resource_uri;
+		var imgUrl = "";
 		return(
 			<li className="list-group-item">
 				<div className="pull-left col-md-4">

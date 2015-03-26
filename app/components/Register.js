@@ -1,6 +1,7 @@
 var React = require('react');
 
 var Register = React.createClass({
+	// Needs to add user to firebase
 	render:function(){
 		return(
 			<div className="col-md-6 center-block">

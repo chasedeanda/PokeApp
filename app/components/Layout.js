@@ -10,7 +10,7 @@ var Layout = React.createClass({
 			<div>
 				<Nav />
 				<ReactCSSTransitionGroup transitionName="example">
-				<RouteHandler />
+					<RouteHandler />
 				</ReactCSSTransitionGroup>
 			</div>
 		)

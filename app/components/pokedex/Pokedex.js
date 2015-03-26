@@ -1,6 +1,6 @@
 var React = require('react');
-var pokeActions = require('../../actions/pokeActions.js');
-var pokeStore = require('../../stores/pokeStore.js');
+// var pokeActions = require('../../actions/pokeActions.js');
+// var pokeStore = require('../../stores/pokeStore.js');
 var pokeUtils = require('../../utils/pokeUtils.js');
 var Pokemon = require('./Pokemon.js');
 
