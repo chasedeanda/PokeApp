@@ -1,11 +1,17 @@
-var React = require('react');
-var RouteHandler = require('../config/routes.js');
+var React = require('react/addons');
+var Router = require('react-router');
+var RouteHandler = Router.RouteHandler;
+var Nav = require('./Nav.js');
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var Layout = React.createClass({
 	render:function(){
 		return(
-			<div className="well">
-				<RouteHandler/>
+			<div>
+				<Nav />
+				<ReactCSSTransitionGroup transitionName="example">
+					<RouteHandler />
+				</ReactCSSTransitionGroup>
 			</div>
 		)
 	}
