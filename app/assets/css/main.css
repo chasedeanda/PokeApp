@@ -13,30 +13,160 @@
 .list-group-item:hover{
 	background:#bdc3c7;
 }
-
-
+/***********************\
+  		GLOBAL
+\***********************/
+body{
+	background: #FBFBFB;
+}
+.main-container{
+	padding: 10px 15px;
+	background-color: #fff;
+	border: 1px solid #dfd7ca;
+	margin-bottom: 10px;
+}
 /***********************\
   		TOOLS
 \***********************/
 .text-right{
 	text-align: right;
 }
-
+.top20{
+	margin-top:20px;
+}
+.left5{
+	margin-left:5px;
+}
+.pointer{
+	cursor: pointer;
+}
+.nopadding{
+	padding: 0 !important;
+}
+.top0{
+	margin-top:0px;
+}
+.relative{
+	position: relative;
+}
+.bottom10{
+	margin-bottom:10px !important;
+}
+.capitalize{
+	text-transform: capitalize;
+}
+.width20{
+	width: 20%;
+}
+.strong{
+	font-weight: bold;
+}
+.block{
+	display: block;
+}
+.border-right{
+	border-right:1px solid #dfd7ca !important;
+}
+.bottom50{
+	margin-bottom: 50px;
+}
 /***********************\
   		NAVBAR
 \***********************/
-.navbar{
-	height: 105px;
-	background: #e74c3c;
-	color:#ffffff;
-	border-bottom:5px solid #222222;
-}
-.navbar-default .navbar-nav>li>a{
-	color: #ffffff;
-}
 .navbar-header img{
-	height: 75px;
+	margin-top: -10px;
 }
+/***********************\
+  		POKEDEX
+\***********************/
+.poke-profile{
+  background: url('../images/pokeball-watermark.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position-x: 47%;
+}
+.pokedex-container{
+	height: 971px;
+	overflow: scroll;
+	border: 1px solid #dfd7ca;
+ 	border-radius: 4px;
+}
+.pokedex-container li{
+	border: 1px solid #dfd7ca;
+	border-bottom-width: 0;
+	border-left-width: 0;
+	border-right-width: 0;
+}
+.pokedex-container li:first-child{
+	border-radius:0;
+}
+.pokedex-container .list-group{
+	margin-bottom: 0;
+}
+.stats li{
+	height: 52px;
+	padding: 5px;
+	border-right:none;
+	border-radius: 0px;
+}
+.moves-list, .desc-ul{
+	max-height: 150px;
+	overflow: scroll;
+	border: 1px solid #dfd7ca;
+ 	border-radius: 4px;
+}
+.moves-list li, .desc-ul li{
+	border: 1px solid #dfd7ca;
+	border-bottom-width: 0;
+	border-left-width: 0;
+	border-right-width: 0;
+}
+.moves-list li:first-child, .desc-ul li:first-child{
+	border-top:none;
+}
+
+/*---MEDIA QUERIES---*/
+@media(max-width: 515px){
+/*	.stats li{
+		padding: 5px 0;
+		font-size: 11px;
+	}*/
+	.desc-ul{
+		max-height:150px;
+		overflow: scroll;
+	}
+	.pokedex-container{
+		height:500px;
+	}
+}
+/***********************\
+  		TYPES
+\***********************/
+.type{
+	background-image:url('../images/types-sprite.png');
+	width: 53px;
+  	height: 21px;
+  	display: inline-block;
+  	margin-right: 5px;
+}
+.fire{background-position: -9px 128px;}
+.ice{background-position: -137px 95px;}
+.steel{background-position: -73px 28px;}
+.water{background-position: -138px 28px;}
+.bug{background-position: -9px -6px;}
+.normal{background-position: -9px 61px;}
+.dark{background-position: -73px -6px;}
+.dragon{background-position: -138px -6px;}
+.electric{background-position: -9px 161px;}
+.fairy{background-position: -73px 161px;}
+.fighting{background-position: -137px 161px;}
+.flying{background-position: -73px 128px;}
+.ghost{background-position: -137px 128px;}
+.grass{background-position: -9px 95px;}
+.ground{background-position: -73px 95px;}
+.poison{background-position: -73px 61px;}
+.psychic{background-position: -137px 61px;}
+.rock{background-position: -9px 28px;}
 
 /***********************\
   	EXPERIMENTAL CSS

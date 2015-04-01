@@ -1,34 +1,30 @@
 var React = require('react');
-// var pokeActions = require('../../actions/pokeActions.js');
-// var pokeStore = require('../../stores/pokeStore.js');
 var pokeUtils = require('../../utils/pokeUtils.js');
-var Pokemon = require('./Pokemon.js');
+var pokeActions = require('../../actions/pokeActions.js');
 
 var Pokedex = React.createClass({
 	getInitialState:function(){
 		return{
-			pokedex: pokeStore.getPokedex().pokemon
+			pokedex: []
 		}
-	},	
+	},
+	handleClick:function(e){
+		var pokeUri = e.currentTarget.getAttribute('data-resourceuri');
+		pokeActions.getPokemon(pokeUri);
+		// window.scrollTo(0,0);
+	},
 	componentWillMount:function(){
-		pokeActions.getPokedex();
-		pokeStore.addChangeListener(this._onChange);
-	},
-	componentWillUnmount:function(){
-		pokeStore.removeChangeListener(this._onChange);
-	},
-	_onChange:function(){
-		this.setState({
-			pokedex: pokeStore.getPokedex().pokemon
-		})
+		pokeUtils.getPokedex().then(function(response){
+			this.setState({
+				pokedex: response.data.pokemon
+			})
+		}.bind(this));
 	},
 	render:function(){
-		debugger
 		/* NEED TO PULL IN POKEMON DATA HERE SOMEHOW */
-		var description = "Description Here";
 		var pokedexList = this.state.pokedex.map(function(pokemonRef, index){
 			return(
-				<li className="list-group-item" key={index}>
+				<li className="list-group-item poke-item" key={index} onClick={this.handleClick} data-resourceuri={pokemonRef.resource_uri}>
 					<div className="pull-left col-md-4">
 						<span>{pokemonRef.name}</span>
 					</div>
@@ -40,14 +36,9 @@ var Pokedex = React.createClass({
 			
 		}.bind(this));
 		return(
-			<div className="container">
-				<div className="col-md-10 center-block">
-					<Pokemon />
-					<ul className="list-group">
-						{pokedexList}
-					</ul>
-				</div>
-			</div>
+			<ul className="list-group">
+				{pokedexList}
+			</ul>
 		)
 	}
 });
@@ -56,11 +47,4 @@ module.exports = Pokedex;
 
 /*
 Object {name: "rattata", resource_uri: "api/v1/pokemon/19/"}
-
-
-pokeUtils.getPokemon(pokemonRef.resource_uri).then(function(response){
-				return(
-				<PokedexItem className="list-group-item" key={index} pokemon={response.data} description={description} />
-				)	
-			});
 */

@@ -5,6 +5,20 @@ Pokemon Calculator:
 (3) Divide the results on a calculator by two until it is 649 or under, ignoring decimal points if need be. (760/2 = 380)
 (4) Search the number up and find what Pokemon you truly are~! (Latias! :3)
 
+Stats Formula
+-------------------------------------------------------------------------------------------------------------------------------
+The formula is as follows:
+
+Stat = ((Base * 2 + IV + (EV/4)) * Level / 100 + 5) * Nmod
+
+Except for HP, which is:
+
+HP = (Base * 2 + IV + (EV/4)) * Level / 100 + 10 + Level
+
+Everything rounds down.
+
+
+
 API information at http://pokeapi.co/docs/#pokedex
 
 Pokemon
