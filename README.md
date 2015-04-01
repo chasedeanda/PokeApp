@@ -1,4 +1,5 @@
-### PokeApp built using using PokeApi/Webpack/React/Flux/Bootstrap
+### PokeApp 
+###### Built with PokeApi/Webpack/React/Flux/Bootstrap
 ![](https://github.com/chasedeanda/PokeApp/blob/master/app/assets/images/Desktop-2.png)
 
 ### Mobile Responsiveness
