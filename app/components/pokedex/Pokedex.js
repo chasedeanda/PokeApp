@@ -11,6 +11,8 @@ var Pokedex = React.createClass({
 	handleClick:function(e){
 		var pokeUri = e.currentTarget.getAttribute('data-resourceuri');
 		pokeActions.getPokemon(pokeUri);
+		pokeActions.getImage();
+		pokeActions.getDescription();
 		// window.scrollTo(0,0);
 	},
 	componentWillMount:function(){
