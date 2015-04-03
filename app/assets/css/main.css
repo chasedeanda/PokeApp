@@ -85,6 +85,9 @@ body{
   background-size: contain;
   background-position-x: 47%;
 }
+.poke-profile img{
+	min-height: 120px;
+}
 .pokedex-container{
 	height: 971px;
 	overflow: scroll;
