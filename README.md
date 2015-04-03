@@ -1,4 +1,5 @@
 ## PokeApp 
+[View Live Site](http://chasedeanda.github.io/PokeApp/public/index.html#/)
 ###### Built with [PokeApi](http://pokeapi.co/)/Webpack/React/Flux/Bootstrap
 ![](https://github.com/chasedeanda/PokeApp/blob/master/app/assets/images/Desktop-2.png)
 

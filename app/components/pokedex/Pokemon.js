@@ -2,6 +2,8 @@ var React = require('react');
 var pokeActions = require('../../actions/pokeActions.js');
 var pokeUtils = require('../../utils/pokeUtils.js');
 var pokeStore = require('../../stores/pokeStore.js');
+var imageStore = require('../../stores/imageStore.js');
+var descriptionStore = require('../../stores/descriptionStore.js');
 var appConstants = require('../../constants/appConstants.js');
 var Ability = require('./Ability.js');
 var Eggs = require('./Eggs.js');
@@ -13,139 +15,134 @@ var Pokemon = React.createClass({
 	getInitialState:function(){
 		return {
 			currentPokemon: pokeStore.getCurrentPokemon(),
-			pokeImage: "",
-			description: ""
+			pokeImage: imageStore.getCurrentImage(),
+			description: descriptionStore.getCurrentDesc(),
+         loading: pokeStore.isLoading()
 		}
 	},
 	componentWillMount:function()
 	{
-		// Here's where I could get my default values
-      if(!localStorage.getItem('currentPokemon'))
+      pokeStore.addChangeListener(this._onChange);
+      imageStore.addChangeListener(this._onChange);
+      descriptionStore.addChangeListener(this._onChange);
+	},
+	componentWillUnmount:function(){
+		pokeStore.removeChangeListener(this._onChange);
+      imageStore.removeChangeListener(this._onChange);
+      descriptionStore.removeChangeListener(this._onChange);
+	},
+   componentDidMount:function(){
+       if(!localStorage.getItem('currentPokemon'))
       {
-   		this.setState({
-            currentPokemon: appConstants.DEFAULT_POKEMON,
-   			pokeImage: appConstants.POKE_BASE + "media/img/1.png",
-   			description: "The seed on its back is filled with nutrients. The seed grows steadily larger as its body grows."
-   		})
+         // Load default
+         pokeActions.getPokemon("/api/v1/pokemon/1/");
       }
       else
       {
          var storedPokemon = JSON.parse(localStorage.getItem('currentPokemon'));
-         this.setState({
-            currentPokemon: storedPokemon
-         })
-         this.getImage(storedPokemon.sprites[0].resource_uri);
-         this.getDescription(storedPokemon.descriptions[0].resource_uri);
+         pokeActions.getPokemon(storedPokemon.resource_uri);
       }
-		pokeStore.addChangeListener(this._onChange);
-	},
-	componentWillUnmount:function(){
-		pokeStore.removeChangeListener(this._onChange);
-	},
+   },
 	_onChange:function(){
-		// Fetch new pokemon images
 		this.setState({
-			currentPokemon: pokeStore.getCurrentPokemon()
+			currentPokemon: pokeStore.getCurrentPokemon(),
+         pokeImage: imageStore.getCurrentImage(),
+         description: descriptionStore.getCurrentDesc(),
+         loading: pokeStore.isLoading()
 		});
-		this.getImage(this.state.currentPokemon.sprites[0].resource_uri);
-		this.getDescription(this.state.currentPokemon.descriptions[0].resource_uri);
-      console.log(this.state.currentPokemon.sprites);
-	},
-	getImage:function(resource){
-		pokeUtils.get(resource).then(function(response){
-			this.setState({
-				pokeImage: appConstants.POKE_BASE + response.data.image
-			})
-		}.bind(this));
-	},
-	getDescription:function(resource){
-		pokeUtils.get(resource).then(function(response){
-			this.setState({
-				description: response.data.description
-			})
-		}.bind(this));
 	},
 	render:function(){
-		var types = this.state.currentPokemon.types.map(function(type, index){
-			return(
-				<span className={type.name + " type"} key={index}></span>
-			)
-		});
-		return(
-			<div className="clearfix">
-				<div className="col-md-12 text-center relative poke-profile">
-					<div className="lead">
-						<span>National ID#: {this.state.currentPokemon.national_id}</span>
-					</div>
-					<img className="center-block" src={this.state.pokeImage} />
-					<h3 className="top0"><b>{this.state.currentPokemon.name}</b></h3>
-               <p className="capitalize">{this.state.currentPokemon.species}</p>
-					<div className="center-block">
-						{types}
-					</div>
-				</div>
+      if (!this.state.loading){
+   		var types = this.state.currentPokemon.types.map(function(type, index){
+   			return(
+   				<span className={type.name + " type"} key={index}></span>
+   			)
+   		});
+   		return(
+   			<div className="clearfix">
+   				<div className="col-md-12 text-center relative poke-profile">
+   					<div className="lead">
+   						<span>National ID#: {this.state.currentPokemon.national_id}</span>
+   					</div>
+   					<img className="center-block" src={this.state.pokeImage} />
+   					<h3 className="top0"><b>{this.state.currentPokemon.name}</b></h3>
+                  <p className="capitalize">{this.state.currentPokemon.species}</p>
+   					<div className="center-block">
+   						{types}
+   					</div>
+   				</div>
 
-				<div className="clearfix">
-					<div className="col-md-12 top20 center-block">
-						<p>{this.state.description}</p>
-					</div>
-				</div>
+   				<div className="clearfix">
+   					<div className="col-md-12 top20 center-block">
+   						<p>{this.state.description}</p>
+   					</div>
+   				</div>
 
-            {/* Base Stats */}
-            <div className="col-md-12 center-block">
-               Base Stats
-               <ul className="list-group stats clearfix">
-                  <li className="list-group-item width20 pull-left text-center col-xs-4"><span className="strong block">Attack</span>{this.state.currentPokemon.attack}</li>
-                  <li className="list-group-item width20 pull-left text-center col-xs-4"><span className="strong block">HP</span>{this.state.currentPokemon.hp}</li>
-                  <li className="list-group-item width20 pull-left text-center border-right col-xs-4"><span className="strong block">Defense</span>{this.state.currentPokemon.defense}</li>
-                  <li className="list-group-item width20 pull-left text-center col-xs-6"><span className="strong block">SP Attack</span>{this.state.currentPokemon.sp_atk}</li>
-                  <li className="list-group-item width20 pull-left text-center border-right col-xs-6"><span className="strong block">SP Defense</span>{this.state.currentPokemon.sp_def}</li>
-               </ul>
-            </div>
-
-            {/* Evolutions */}
-            {(this.state.currentPokemon.evolutions.length > 0) ?
+               {/* Base Stats */}
                <div className="col-md-12 center-block">
-                  Evolutions
-                  <Evolutions evolutions={this.state.currentPokemon.evolutions} />
-               </div> : ""
-            }
+                  Base Stats
+                  <ul className="list-group stats clearfix">
+                     <li className="list-group-item width20 pull-left text-center col-xs-4"><span className="strong block">Attack</span>{this.state.currentPokemon.attack}</li>
+                     <li className="list-group-item width20 pull-left text-center col-xs-4"><span className="strong block">HP</span>{this.state.currentPokemon.hp}</li>
+                     <li className="list-group-item width20 pull-left text-center border-right col-xs-4"><span className="strong block">Defense</span>{this.state.currentPokemon.defense}</li>
+                     <li className="list-group-item width20 pull-left text-center col-xs-6"><span className="strong block">SP Attack</span>{this.state.currentPokemon.sp_atk}</li>
+                     <li className="list-group-item width20 pull-left text-center border-right col-xs-6"><span className="strong block">SP Defense</span>{this.state.currentPokemon.sp_def}</li>
+                  </ul>
+               </div>
 
-            {/* Abilities */}
-            <div className="col-md-12 center-block">
-               Abilities
-               <Ability abilities={this.state.currentPokemon.abilities}/>
-            </div>
+               {/* Evolutions */}
+               {(this.state.currentPokemon.evolutions.length > 0) ?
+                  <div className="col-md-12 center-block">
+                     Evolutions
+                     <Evolutions evolutions={this.state.currentPokemon.evolutions} />
+                  </div> : ""
+               }
 
-            {/* Egg Groups */}
-            <div className="col-md-12 center-block">
-               Egg Groups
-               <Eggs eggs={this.state.currentPokemon.egg_groups}/>
-            </div>
-
-            {/* Male Female Ratio */}
-            {(this.state.currentPokemon.male_female_ratio) ? 
+               {/* Abilities */}
                <div className="col-md-12 center-block">
-                  Male Female Ratio: {this.state.currentPokemon.male_female_ratio}
-               </div> : ""
-            }
+                  Abilities
+                  <Ability abilities={this.state.currentPokemon.abilities}/>
+               </div>
 
-            {/* Moves */}
-            {(this.state.currentPokemon.moves.length > 0) ?
+               {/* Egg Groups */}
                <div className="col-md-12 center-block">
-                  Moves List
-                  <Moves moves={this.state.currentPokemon.moves} />
-               </div> : ""
-            }
+                  Egg Groups
+                  <Eggs eggs={this.state.currentPokemon.egg_groups}/>
+               </div>
 
-            {/* Alternate descriptions/images? */}
-            <div className="col-md-12 center-block">
-               Alternate descriptions & images
-               <Alternates imagesAR={this.state.currentPokemon.sprites} descriptionsAR={this.state.currentPokemon.descriptions} currentImage={this.state.pokeImage} currentDescription={this.state.description} />
+               {/* Male Female Ratio */}
+               {(this.state.currentPokemon.male_female_ratio) ? 
+                  <div className="col-md-12 center-block">
+                     Male Female Ratio: {this.state.currentPokemon.male_female_ratio}
+                  </div> : ""
+               }
+
+               {/* Moves */}
+               {(this.state.currentPokemon.moves.length > 0) ?
+                  <div className="col-md-12 center-block">
+                     Moves List
+                     <Moves moves={this.state.currentPokemon.moves} />
+                  </div> : ""
+               }
+
+               {/* Alternate descriptions/images? */}
+               <div className="col-md-12 center-block">
+                  Alternate descriptions & images
+                  <Alternates imagesAR={this.state.currentPokemon.sprites} descriptionsAR={this.state.currentPokemon.descriptions} currentImage={this.state.pokeImage} currentDescription={this.state.description} />
+               </div>
+
+   			</div>
+   		)
+      }
+      else{
+         return(
+            <div className="clearfix bottom10">
+               <h3 className="text-center">Loading...</h3>
+               <img className="center-block img-responsive loading-spinner" src="../app/assets/images/poke-spinner.gif" />
+
             </div>
-
-			</div>
-		)
+         )
+      }
 	}
 });
 

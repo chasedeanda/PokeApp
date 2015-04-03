@@ -1,6 +1,7 @@
 var React = require('react');
 var pokeUtils = require('../../utils/pokeUtils.js');
 var appConstants = require('../../constants/appConstants.js');
+var pokeStore = require('../../stores/pokeStore.js');
 
 var Alternates = React.createClass({
 	propTypes:{
@@ -39,7 +40,9 @@ var Alternates = React.createClass({
 		}.bind(this));
 	},
 	getDescription:function(resource){
+      debugger
 		pokeUtils.get(resource).then(function(response){
+         debugger
 			var description = response.data.description;
 			if(this.state.descriptions.indexOf(description) < 0)
 				if(description !== this.props.currentDescription)
